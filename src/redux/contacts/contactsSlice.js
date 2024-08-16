@@ -1,26 +1,37 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, isAnyOf } from "@reduxjs/toolkit";
+import { addContactsThunk, deleteContactThunk, fetchContactsThunk } from "./contactsOps";
 
 const initialState = {
-  items: [
-    { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
-    { id: "id-2", name: "Hermione Kline", number: "443-89-12" },
-    { id: "id-3", name: "Eden Clements", number: "645-17-79" },
-    { id: "id-4", name: "Annie Copeland", number: "227-91-26" },
-  ],
+  contacts: {contacts: [],
+  loading: false,
+  error: null},
+  filter: {
+		name: ""
+	}
 };
+
+
 
 const slice = createSlice({
   name: "contacts",
   initialState,
-  reducers: {
-    deleteContact: (state, actions) => {
-      state.items = state.items.filter((item) => item.id !== actions.payload);
-    },
-    addContact: (state, action) => {
-      state.items.push(action.payload);
-    },
-  },
+  extraReducers: builder => {
+    builder.addCase(fetchContactsThunk.fulfilled,(state,action)=> {
+      state.contacts = action.payload;
+    }).addCase(addContactsThunk.fulfilled, (state,action) => {
+      state.contacts.push(action.payload)
+    }).addCase(deleteContactThunk.fulfilled, (state, action) => {
+      state.contacts = state.contacts.filter(contact => contact.id !== action.payload)
+    }).addMatcher(isAnyOf(fetchContactsThunk.pending, deleteContactThunk.pending, addContactsThunk.pending), state => {
+      state.loading = true;
+      state.error = false;
+    }).addMatcher(isAnyOf(fetchContactsThunk.rejected, deleteContactThunk.rejected, addContactsThunk.rejected), state => {
+      state.loading = false;
+      state.error = true;
+    }).addMatcher(isAnyOf(fetchContactsThunk.fulfilled, deleteContactThunk.fulfilled, addContactsThunk.fulfilled), state => {
+      state.loading = false
+    })
+  }
 });
 
 export const contactsReduser = slice.reducer;
-export const { deleteContact, addContact } = slice.actions;
