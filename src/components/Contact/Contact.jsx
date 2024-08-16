@@ -11,7 +11,10 @@ const Contact = ({ id, name, number }) => {
         <p>{name}</p>
         <a href="">{number}</a>
       </div>
-      <button className={s.button} onClick={() => dispatch(deleteContactThunk(id))}>
+      <button
+        className={s.button}
+        onClick={() => dispatch(deleteContactThunk(id))}
+      >
         Delete
       </button>
     </li>

@@ -5,11 +5,6 @@ import { selectFilteredContacts } from "../../redux/contacts/selectors";
 
 const ContactList = () => {
   const filteredData = useSelector(selectFilteredContacts);
-  // const filter = useSelector(selectFilter);
-  
-  // const filteredData = contacts.filter((item) =>
-  //   item.name.toLowerCase().includes(filter.toLowerCase())
-  // );
   return (
     <ul className={s.ul}>
       {filteredData.map((item) => (

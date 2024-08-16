@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
-import * as Yup from 'yup'
-import s from'./ContactForm.module.css';
+import * as Yup from "yup";
+import s from "./ContactForm.module.css";
 import { useDispatch } from "react-redux";
 import { addContactsThunk } from "../../redux/contactsOps";
 
@@ -21,11 +21,11 @@ const ContactForm = () => {
   const dispatch = useDispatch();
 
   const onSubmit = (values, options) => {
-    const newContact = {name: values.name, number: values.number}
+    const newContact = { name: values.name, number: values.number };
 
     dispatch(addContactsThunk(newContact));
-    options.resetForm()
-  }
+    options.resetForm();
+  };
 
   return (
     <div>
@@ -33,28 +33,21 @@ const ContactForm = () => {
         validationSchema={registerSchema}
         initialValues={initialValues}
         onSubmit={onSubmit}
-        
       >
         <Form className={s.form}>
           <label className={s.label}>
             <span>Name</span>
-            <Field name="name"   className={s.input}/>
-            <ErrorMessage
-              name="name"
-              component="span"
-              className={s.error}
-            />
+            <Field name="name" className={s.input} />
+            <ErrorMessage name="name" component="span" className={s.error} />
           </label>
           <label className={s.label}>
             <span>Number</span>
-            <Field name="number"  className={s.input} />
-            <ErrorMessage
-              name="number"
-              component="span"
-              className={s.error}
-            />
+            <Field name="number" className={s.input} />
+            <ErrorMessage name="number" component="span" className={s.error} />
           </label>
-          <button type="submit"  className={s.button}>Add contact</button>
+          <button type="submit" className={s.button}>
+            Add contact
+          </button>
         </Form>
       </Formik>
     </div>
