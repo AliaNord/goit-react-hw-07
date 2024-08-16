@@ -6,10 +6,7 @@ import {
 } from "../contactsOps";
 
 const initialState = {
-  contacts: { contacts: [], loading: false, error: null },
-  filter: {
-    name: "",
-  },
+  contacts: [], loading: false, error: null ,
 };
 
 const slice = createSlice({
